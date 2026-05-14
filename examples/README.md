@@ -1,35 +1,38 @@
-# Examples from Real Wiki
+# Examples
 
-This directory contains real files from a knowledge base maintained with `karpathy-llm-wiki` since April 2026.
+This directory contains sample files showing the content style used by `collaborative-llm-wiki`.
 
 ## Files
 
 | File | What it shows |
 |------|---------------|
-| `claude-code-statusline-landscape.md` | Compiled wiki article with structured data (tables, citations, cross-references) |
+| `claude-code-statusline-landscape.md` | Wiki article compiled from raw source material, with structured sections, tables, citations, and cross-references |
 | `2026-03-19-claude-code-statusline-landscape.md` | Raw source material before compilation |
-| `ai-coding-tools-index.md` | Topic index with one-line summaries |
-| `log-sample.md` | Sample entries from operation log |
+| `ai-coding-tools-index.md` | Topic-style index content with one-line summaries |
+| `log-sample.md` | Collaboration-first `log.md` entries with Change-ID and PR review notes |
 
-## Raw vs Compiled Comparison
+## Raw Source vs Wiki Article
 
 **Raw source** (`2026-03-19-claude-code-statusline-landscape.md`):
 - Original research notes
 - Unstructured content
-- Metadata header (Source, Collected, Published dates)
+- Metadata header with Source, Collected, and Published dates
 
-**Compiled article** (`claude-code-statusline-landscape.md`):
-- Structured sections (Overview, Competitive Landscape, User Pain Points)
-- Tables synthesized from multiple sources
-- Cross-references to other wiki articles
-- Updated across multiple ingest operations
+**Wiki article compiled from source** (`claude-code-statusline-landscape.md`):
+- Structured sections
+- Synthesized tables
+- Cross-references to related wiki articles
+- Source-attributed claims
 
 ## Operation Log
 
-The log records every action:
-- `Compile` — new article from source
-- `Update` — cascade updates across related articles
-- `Lint` — quality checks
-- `Query` — archived query results
+The canonical wiki log is `<wiki-root>/log.md`. Each PR appends a structured entry with:
 
-Recent activity shows daily maintenance: 87 entries in the last 7 days alone.
+- `Change-ID`
+- operation type
+- raw sources
+- touched articles
+- index updates
+- decisions
+- follow-up items
+- review notes

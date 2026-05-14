@@ -14,7 +14,7 @@ Usage strategies, context management, multi-agent orchestration, and human-AI in
 | [Compact Instructions Best Practices](compact-instructions-best-practices.md) | auto-compact mechanism's lost content and information retention priority template |
 | [Multi-Agent Orchestration Landscape](multi-agent-orchestration-landscape.md) | Five orchestration paradigms comparison, real user behavior patterns (role division not simultaneous coding),赛道新约束, 2026-04-11 IDE paradigm explosion (Paseo/super.engineering/Conductor/Emdash) and僵尸识别 (Vibe Kanban/Plandex) |
 | [Multica Evaluation](multica-evaluation.md) | Open-source managed agents platform (2026-04-11 repositioning), Runtimes/Agents/Skills three-layer architecture mapping to Anthropic brain/hands/session, 8 days 3.7x stars growth |
-| [Slock.ai Evaluation](slock-ai-evaluation.md) | Closed-source IM paradigm tool, MCP protocol bridging, Kimi CLI author personally maintains multi-driver abstraction, Moonshot ecosystem integration naturally deeper |
+| [Slock.ai Evaluation](slock-ai-evaluation.md) | Closed-source IM paradigm tool, MCP protocol bridging, Kimi CLI author maintains multi-driver abstraction, Moonshot ecosystem integration naturally deeper |
 | [Context Window and Subagent Protection](context-window-subagent-protection.md) | Performance degradation when context exceeds 70%, subagents trade tokens for clean context |
 | [Human-AI Feedback Loop](human-ai-feedback-loop.md) | Three-level intervention gradient replacing binary Q&A, reducing per-error cost |
 | [Hooks and Deterministic Behavior Control](hooks-deterministic-control.md) | 25 event types, 4 execution types, deterministic alternative when CLAUDE.md unreliable |
@@ -71,10 +71,10 @@ Usage strategies, context management, multi-agent orchestration, and human-AI in
 
 ## Related Topics
 
-- [AI Research](../ai-research/_index.md) (Tool comparisons, personal developer practices; includes [Capability-Alignment Paradox](../ai-research/capability-alignment-paradox.md) and [Cyber-Driven Restricted Release](../ai-research/cyber-driven-restricted-release.md) related to Mythos Preview system card)
+- [AI Research](../ai-research/_index.md) (Tool comparisons and developer practices; includes [Capability-Alignment Paradox](../ai-research/capability-alignment-paradox.md) and [Cyber-Driven Restricted Release](../ai-research/cyber-driven-restricted-release.md) related to Mythos Preview system card)
 - [Agent Deployment](../agent-deployment/_index.md) (Non-technical team deploying AI agents' real blockers, four-ring gap, 9 person/day/expert IT time limit. Complements [OpenClaw Harness Stability](openclaw-harness-stability.md) and [China AI Coding Agent Access](china-ai-coding-agent-access.md): this topic from tool and harness perspective, agent-deployment from actual pushing tools to non-technical employees现场 perspective)
 - [LLM Knowledge Bases](../llm-knowledge-bases/_index.md) (Tool practices in knowledge base workflows)
-- [Open Source and Software Value](../open-source/_index.md) (Code depreciation and open source value migration)
+- [Open Source and Software Value](../open-source/_index.md) (Code depreciation and open source value shift)
 - [GEO](../geo/_index.md) (GEO extending to agent economy: skill distribution as new distribution mechanism, to AI to People path, directly related to this topic's agent ecosystem and MCP discussions)
 
 ## Related Sources

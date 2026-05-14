@@ -1,6 +1,6 @@
 # karpathy-llm-wiki
 
-**A reusable skill for building Karpathy-style LLM wikis with Claude Code, Cursor, Codex, and other Agent Skills tools.**
+**A reusable Agent Skill for maintaining a shared GitHub-backed LLM wiki through small, reviewable pull requests.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/Astro-Han/karpathy-llm-wiki?style=social)](https://github.com/Astro-Han/karpathy-llm-wiki)
@@ -12,88 +12,131 @@
   <img src="assets/karpathy-tweet.png" alt="Karpathy's tweet about LLM Wiki" width="560">
 </p>
 
-`karpathy-llm-wiki` packages [Karpathy's LLM Wiki idea](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) into one installable [Agent Skills](https://agentskills.io) skill. Your coding agent ingests sources into `raw/`, compiles durable knowledge pages into `wiki/`, answers questions with citations, and lints the wiki for consistency.
+`collaborative-llm-wiki` packages [Karpathy's LLM Wiki idea](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) into a collaboration-first skill. It helps an agent ingest sources, compile them into wiki articles, answer questions from the wiki, lint wiki health, and prepare PR-safe changes for a maintainer to review and merge.
+
+Unlike a personal Karpathy-style LLM wiki, this project is designed for a collaborative GitHub repository. Its main purpose is to make LLM-maintained knowledge changes safe for teams: configurable wiki roots, wiki-root-only edits, PR-lint, append-only operation logs, commit traceability, and maintainer-reviewed merges.
 
 ## What Is an LLM Wiki?
 
-An **LLM wiki** is a knowledge system where the LLM maintains structured wiki pages instead of re-searching raw documents on every question. New sources are compiled into durable markdown pages, cross-references are updated over time, and answers cite the wiki pages that already contain the synthesized knowledge.
+An **LLM wiki** is a knowledge system where source material is compiled into wiki articles instead of being re-summarized from raw documents on every query. New sources improve the wiki over time through article updates, citations, conflict notes, and follow-up items.
 
-This skill gives you three operations:
+This skill is designed for shared GitHub repositories:
 
-| Operation | What it does | Output |
-|-----------|--------------|--------|
-| **Ingest** | Collects a source into `raw/` and compiles it into the wiki | New or updated wiki pages |
-| **Query** | Searches the wiki and answers with citations | Grounded answers linking to markdown pages |
-| **Lint** | Checks index integrity, links, and wiki health | Auto-fixes plus reported issues |
+| Operation | What it does | PR behavior |
+|-----------|--------------|-------------|
+| **Ingest** | Stores one source in raw form and updates the primary article | Small wiki-root-only PR |
+| **Query** | Answers from existing wiki articles with citations | Read-only unless archived |
+| **Archive / Memory Bank** | Saves a final answer, correction, decision, or reusable note as a point-in-time wiki article | New memory article plus log entry |
+| **Lint** | Checks links, index entries, duplicates, and PR readiness | Small auto-fixes or report-only findings |
+| **Compact** | Summarizes old log entries and links them to commits | User-requested PR-safe log maintenance |
 
-See [SKILL.md](SKILL.md) for the full skill specification.
+See [SKILL.md](SKILL.md) for the full workflow specification.
 
-## LLM Wiki vs RAG
+## Wiki Root
 
-| Approach | Knowledge lives in | When synthesis happens | Good for |
-|----------|--------------------|------------------------|----------|
-| **RAG** | Raw chunks and embeddings | At query time | Broad retrieval across large corpora |
-| **LLM Wiki** | Curated markdown pages | During ingest and maintenance | Compounding knowledge, summaries, and durable cross-links |
+The wiki lives under a configured wiki root. The default is `wiki/`; teams can use `llm/wiki/` or another path when they want the wiki isolated from application code.
 
-This skill is optimized for the wiki model: knowledge that improves over time instead of re-deriving relationships on every query.
+```text
+your-repo/
+└── wiki/                    # or llm/wiki/
+    ├── llm_wiki_config.md   # root marker and schema
+    ├── raw/                 # immutable source material
+    │   └── topic/
+    │       └── 2026-05-14-source-title.md
+    ├── articles/            # wiki articles compiled from raw sources
+    │   └── topic/
+    │       └── concept-name.md
+    ├── index.md             # global index
+    ├── log.md               # append-only operation log
+    └── references/          # templates copied into the wiki project
+```
 
-## Usage Stats
+All write operations stay under the configured wiki root. The skill does not modify app code, source directories, package manifests, or CI configuration as part of wiki maintenance.
 
-Based on a production knowledge base maintained daily since April 2026:
+The root is set during initialization. If you want `llm/wiki/`, name it explicitly in the first setup request:
 
-- **94** wiki articles across **13** topic directories
-- **99** source materials ingested
-- **87** operation log entries in the last 7 days
+> "Set up a shared LLM wiki under `llm/wiki/`."
 
-See [examples/](examples/) for sample wiki pages, source files, and operation logs.
+That creates `llm/wiki/llm_wiki_config.md`:
 
-## Install
+```md
+# LLM Wiki Config
+
+> Schema: collaborative-llm-wiki/v1
+> Wiki-Root: llm/wiki/
+> Created: 2026-05-14
+```
+
+If the first setup request does not name a root, the agent uses the default `wiki/`. It cannot discover `llm/wiki/` before that directory and `llm_wiki_config.md` exist.
+
+On later tasks, the agent discovers the root by searching for a valid `llm_wiki_config.md` plus the required sibling files: `raw/`, `articles/`, `index.md`, and `log.md`. If more than one valid wiki root exists, the agent stops and asks which one to use instead of guessing.
+
+## PR Workflows
+
+### CI PR Workflow
+
+Use this when the team can safely provide the required API key to CI.
+
+1. CI receives a wiki task such as ingest, archive, lint, or compact.
+2. CI runs the agent against the configured wiki root.
+3. CI creates a PR containing only wiki-root changes.
+4. PR-lint verifies path boundaries, append-only log behavior, `Change-ID`, and diff/log consistency.
+5. A maintainer reviews and merges.
+
+### Local PR Workflow
+
+Use this when API keys cannot be placed in CI.
+
+1. A contributor runs the agent locally.
+2. The agent prepares wiki-root-only changes.
+3. The contributor opens a PR.
+4. PR-lint checks the same boundaries and log requirements.
+5. A maintainer reviews and merges.
+
+Both workflows produce the same files and log format. The skill prepares changes; it does not merge them.
+
+## Log And Commit Traceability
+
+`<wiki-root>/log.md` is the single canonical operation log. Each PR appends one structured entry with a stable `Change-ID`.
+
+Commit messages should include trailers:
+
+```text
+Wiki-Log: <wiki-root>/log.md
+Wiki-Change-ID: chg-YYYYMMDD-NNN
+```
+
+The log entry itself uses `Commit: linked by commit trailer` because a commit cannot contain its own final hash. During log compact, the skill can look up commit history and add related commit IDs to the compact summary.
+
+## Quick Start
+
+### 1. Install the skill
 
 ```bash
 npx add-skill Astro-Han/karpathy-llm-wiki
 ```
 
-Works with any tool that supports the [Agent Skills](https://agentskills.io) standard.
+Works with tools that support the [Agent Skills](https://agentskills.io) standard.
 
-## Quick Start
+### 2. Initialize a shared wiki
 
-### 1. Ingest your first source
+Ask the agent to set up the wiki root:
 
-Give the skill a URL, a file, or pasted text:
+> "Set up a shared LLM wiki under `llm/wiki/`."
 
-> "Ingest this article: https://example.com/attention-is-all-you-need"
+The agent creates the wiki structure, index, log, and template copies under that root.
 
-The skill stores the source in `raw/`, then compiles or updates the right knowledge pages in `wiki/`.
+### 3. Ingest a source
 
-### 2. Ask your wiki a question
+> "Ingest this article into the shared wiki and keep the PR small: https://example.com/attention-is-all-you-need"
 
-> "What do I know about attention mechanisms?"
+The agent checks for duplicate raw sources, stores the source, updates the primary article, touches the index entry, and appends a structured log entry.
 
-The skill searches the wiki and answers with citations linking back to your markdown pages.
+### 4. Run PR-lint
 
-### 3. Keep the wiki healthy
+> "Run PR-lint and verify all changed files are under `llm/wiki/`."
 
-> "Lint my wiki"
-
-Checks for broken links, missing index entries, stale cross-references, and related issues.
-
-## How the Workflow Works
-
-The core idea from Karpathy: the LLM maintains the wiki while the human focuses on choosing sources and asking good questions.
-
-```text
-your-project/
-├── raw/            ← Immutable source material
-│   └── topic/
-│       └── 2026-04-03-source-article.md
-├── wiki/           ← Compiled knowledge pages maintained by the LLM
-│   ├── topic/
-│   │   └── concept-name.md
-│   ├── index.md    ← Global table of contents
-│   └── log.md      ← Append-only operation log
-```
-
-Each new source can update multiple pages, strengthen cross-references, and record contradictions. That is what makes the wiki compound over time.
+PR-lint reports blocking issues instead of auto-fixing merge-readiness problems.
 
 ## Tool Compatibility
 
@@ -109,21 +152,29 @@ This skill follows the [agentskills.io](https://agentskills.io) open standard:
 
 ## FAQ
 
-### What is the difference between an LLM wiki and a personal wiki?
+### Why support both CI and local PR workflows?
 
-An LLM wiki is maintained by the model. It updates summaries, cross-links, index entries, and contradictions as new material arrives. A normal personal wiki depends on manual editing.
+Some teams can store API keys in CI and let automation open wiki PRs. Other teams must keep API keys local. This skill supports both while preserving the same rule: wiki work changes only the configured wiki root.
 
-### What sources can I ingest?
+### What sources can be ingested?
 
-Web pages, papers, blog posts, PDFs, markdown files, text files, and pasted text. The skill converts everything into markdown under `raw/` and compiles it into `wiki/`.
+Web pages, papers, blog posts, PDFs, markdown files, text files, and pasted text. The skill converts source material into markdown under `<wiki-root>/raw/` and compiles it into wiki articles under `<wiki-root>/articles/`.
 
-### Is this production-ready?
+### What happens when one source affects many topics?
 
-The workflow is based on a real knowledge base with 94 articles and 99 sources maintained daily since April 2026. The repo includes examples, templates, and a design spec.
+The current PR updates the primary article and records broader work in `Follow-up Required`. This keeps PRs reviewable and avoids broad cross-topic edits.
+
+### Is Archive a memory bank?
+
+Yes. Archive saves conversation-derived knowledge: final answers, user-corrected conclusions, decisions, operating rules, reusable prompts, and notes for future answers. Archive pages are marked with `[Memory]` in the index and do not create raw source files.
+
+### How are old log entries handled?
+
+Log compact runs only when requested. It summarizes selected detailed entries, connects them to commit IDs, and marks retention status. It does not delete detailed entries unless the user explicitly approves specific `Change-ID` values.
 
 ## Inspired By
 
-Unofficial community implementation of the workflow from [Karpathy's LLM Wiki idea](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). The value here is the reusable workflow, prompt structure, and battle-tested knowledge-compilation rules.
+Unofficial community implementation of the workflow from [Karpathy's LLM Wiki idea](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). The value here is the reusable workflow, prompt structure, and collaboration-safe knowledge compilation rules.
 
 See also: [lucasastorian/llmwiki](https://github.com/lucasastorian/llmwiki), [atomicmemory/llm-wiki-compiler](https://github.com/atomicmemory/llm-wiki-compiler).
 

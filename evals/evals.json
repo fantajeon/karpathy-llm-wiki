@@ -1,0 +1,41 @@
+{
+  "skill_name": "collaborative-llm-wiki",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Set up a shared wiki under `llm/wiki/` and ingest this source without touching app code.",
+      "expected_output": "Uses `llm/wiki/` as the configured wiki root, keeps all planned writes inside that root, creates raw/article/index/log outputs, and avoids modifying app code or CI files.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Run this as a local PR workflow because CI cannot access the API key.",
+      "expected_output": "Chooses the Local PR workflow, prepares wiki-root-only changes, and states that a maintainer reviews and merges the PR.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Run PR-lint and verify all changed files are under the configured wiki root.",
+      "expected_output": "Performs report-only PR-lint checks for path boundary, append-only log entry, Change-ID uniqueness, and diff/log consistency.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Archive the corrected final answer as a memory-bank entry and mark it clearly in the index.",
+      "expected_output": "Archives only the revised final answer, creates a memory-bank article, prefixes the index summary with [Memory], and records follow-up items instead of changing unrelated articles.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Compact May log entries and include commit IDs for each Change-ID.",
+      "expected_output": "Compacts requested log entries only on request, resolves related commits from git history, records retention status, and does not delete detailed entries without approval.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Detect a conflict marker in the wiki log and report it without auto-fixing.",
+      "expected_output": "Reports the conflict marker as a blocking PR-lint issue and does not attempt to merge, reorder, or rewrite the log entry.",
+      "files": []
+    }
+  ]
+}

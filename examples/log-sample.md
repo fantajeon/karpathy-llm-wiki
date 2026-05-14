@@ -1,29 +1,43 @@
 # Wiki Log
 
-<!-- Format: ## [YYYY-MM-DD] Action | Topic. Cascading updates use - Updated: sub-items -->
+This file is append-only during normal wiki work. Each PR appends one structured entry with a stable Change-ID.
 
-## [2026-04-12] Update | content-strategy audience correction
-- Target audience corrected from "IT/managers" to "personal knowledge workers" (ops/admin/assistant/marketing)
-- Content perspective shifted from "deployer" to "user": not caring about installation, caring about time saved
-- Second draft rewrite: from tool selection to specific efficiency scenarios (WeChat group → Lark table 2h → 10min)
-- Updated: build-in-public-content-framework.md (audience section + ratio example + answer asset table), _index.md, draft files
+## Ingest: Claude Code Statusline Landscape
 
-## [2026-04-12] Compile | content-strategy (new topic)
-- Created articles/content-strategy/ topic, containing _index.md + build-in-public-content-framework.md
-- Source: X account @AstroHanRay empirical data + wiki 7 articles cross-application (solo-developer-skills-2026, growth, karpathy-viral-product-analysis, traffic-channel-efficiency, geo-fundamentals, product-sense-and-restraint, opensource-tool-growth-patterns)
-- Core finding: altruistic content has distribution, self-narrative doesn't; Xiaohongshu is gstack Build in Public main battlefield
-- Action: deleted X pinned tweet (cat food thread, 0 engagement)
+> Change-ID: chg-20260514-001
+> Date: 2026-05-14
+> Operation: ingest
+> Branch: wiki/ingest-statusline-landscape
+> PR: pending
+> Commit: linked by commit trailer
 
-## [2026-04-12] Update | Chunke GEO plan (Lark DiYndHeofovBUoxebYNcyd62nRf) supplemented based on complete conference minutes
-- Scenario-type queries: 6 items upgraded from single-dimension to compound scenario descriptions ("just adopted 3-month kitten sensitive stomach...")
-- Added attribution mechanism callout: UTM parameters + Tmall source survey + AI citation URL click tracking
-- Updated annotation: noted 2026-04-12 based on 12 guest minutes supplement
+### Summary
 
-## [2026-04-12] Update | Yangzi GEO plan v1 supplemented based on complete conference minutes
-- Source: articles/geo/ compiled conclusions + raw/geo/2026-04-12 newly added 9 guests
-- Output: output/2026-04-08-yangzi-geo-plan-v1.md four changes
-  - Board proposal "opportunity" section: added "heavy-decision industries most suitable for priority GEO布局" + 8x growth data
-  - "How to judge success" section: added attribution mechanism (UTM/consultation source/400 phone同比), start after trial success
-  - B.3 scenario adaptation 6 questions: upgraded to compound scenario descriptions (multi-constraint叠加), matching AI search user intent expression
-  - C.1.1 content structure: added scenario-based content requirements (restore scenario → selection logic → product line落地)
-  - Appendix F success tier: attribution mechanism前置为 long-term budget application necessary condition
+Ingested one source about Claude Code statusline tools and updated the primary article for the AI coding tools topic.
+
+### Raw Sources
+
+- `raw/ai-coding-tools/2026-03-19-claude-code-statusline-landscape.md`
+
+### Touched Articles
+
+- `articles/ai-coding-tools/claude-code-statusline-landscape.md`
+
+### Index Updates
+
+- Updated the `Claude Code Statusline Landscape` entry in `index.md`.
+
+### Decisions
+
+- Updated the existing statusline landscape article instead of creating a second article.
+- Left broader agent deployment implications for a follow-up PR.
+
+### Follow-up Required
+
+- FUP-chg-20260514-001-01: `articles/agent-deployment/openclaw-harness-stability.md` may need a separate update after this PR merges.
+
+### Review Notes
+
+- Check whether the statusline demand summary is supported by the newly ingested source.
+- Confirm PR-lint passes path-boundary, append-only log, and diff/log consistency checks before merge.
+- Confirm commit message includes `Wiki-Change-ID: chg-20260514-001`.
