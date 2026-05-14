@@ -3,10 +3,10 @@
 **A reusable Agent Skill for maintaining a shared GitHub-backed LLM wiki through small, reviewable pull requests.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/Astro-Han/karpathy-llm-wiki?style=social)](https://github.com/Astro-Han/karpathy-llm-wiki)
-[![GitHub forks](https://img.shields.io/github/forks/Astro-Han/karpathy-llm-wiki?style=social)](https://github.com/Astro-Han/karpathy-llm-wiki)
+[![GitHub stars](https://img.shields.io/github/stars/fantajeon/karpathy-llm-wiki?style=social)](https://github.com/fantajeon/karpathy-llm-wiki)
+[![GitHub forks](https://img.shields.io/github/forks/fantajeon/karpathy-llm-wiki?style=social)](https://github.com/fantajeon/karpathy-llm-wiki)
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-compatible-blue)](https://agentskills.io)
-[![Install](https://img.shields.io/badge/Install-npx_add--skill-green)](https://github.com/Astro-Han/karpathy-llm-wiki#install)
+[![Install](https://img.shields.io/badge/Install-npx_add--skill-green)](https://github.com/fantajeon/karpathy-llm-wiki#install)
 
 <p align="center">
   <img src="assets/karpathy-tweet.png" alt="Karpathy's tweet about LLM Wiki" width="560">
@@ -113,7 +113,7 @@ The log entry itself uses `Commit: linked by commit trailer` because a commit ca
 ### 1. Install the skill
 
 ```bash
-npx add-skill Astro-Han/karpathy-llm-wiki
+npx add-skill fantajeon/karpathy-llm-wiki
 ```
 
 Works with tools that support the [Agent Skills](https://agentskills.io) standard.
@@ -144,10 +144,10 @@ This skill follows the [agentskills.io](https://agentskills.io) open standard:
 
 | Tool | Install method |
 |------|----------------|
-| Claude Code | `npx add-skill Astro-Han/karpathy-llm-wiki` |
-| Cursor | `npx add-skill Astro-Han/karpathy-llm-wiki` |
-| Codex CLI | Copy to `.agents/skills/karpathy-llm-wiki/` |
-| OpenCode | `npx add-skill Astro-Han/karpathy-llm-wiki` |
+| Claude Code | `npx add-skill fantajeon/karpathy-llm-wiki` |
+| Cursor | `npx add-skill fantajeon/karpathy-llm-wiki` |
+| Codex CLI | `npx add-skill fantajeon/karpathy-llm-wiki` or copy to `.agents/skills/collaborative-llm-wiki/` |
+| OpenCode | `npx add-skill fantajeon/karpathy-llm-wiki` |
 | Other tools | Copy `SKILL.md` and `references/` into the tool's skill directory |
 
 ## FAQ
